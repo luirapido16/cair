@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Club Atlético Internacional CAIR</title>
+
+<!-- ============================================================
+     TIPOGRAFÍAS — Google Fonts
+     Anton: títulos grandes / impacto deportivo
+     Inter: texto general (legible, moderna)
+     Roboto Mono: datos, horarios, cifras (look "planilla técnica")
+============================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================================================================
+   ██  1. VARIABLES GLOBALES — EDITA AQUÍ COLORES, FUENTES Y MEDIDAS
+   ================================================================
+   Todo el diseño lee estos valores. Cambia un color o tamaño acá
+   y se actualiza en toda la página automáticamente.
+================================================================ */
+:root{
+
+  /* ---------- 🎨 COLORES DE MARCA (modo claro) ---------- */
+  --color-rojo:            #C8102E; /* Rojo principal del escudo CAIR */
+  --color-rojo-oscuro:     #7A0C1E; /* Rojo profundo, degradados y sombras */
+  --color-rojo-brillo:     #FF3B54; /* Rojo brillo para hover / acentos */
+  --color-negro:           #0B0B0D; /* Negro del escudo / textos fuertes */
+  --color-gris-acero:      #5B6270; /* Texto secundario */
+  --color-plata:           #C9CDD3; /* Detalles metálicos / bordes sutiles */
+  --color-fondo:           #F4F5F7; /* Fondo general modo claro */
+  --color-superficie:      #FFFFFF; /* Tarjetas planas modo claro */
+  --color-texto:           #14161A; /* Texto principal modo claro */
+  --color-texto-suave:     #4B5058; /* Texto atenuado modo claro */
+
+  /* ---------- 🥃 VIDRIO / GLASSMORPHISM (modo claro) ---------- */
+  --glass-fondo:           rgba(255,255,255,0.55);
+  --glass-fondo-nav:       rgba(255,255,255,0.82); /* Barra de menú: más clara/blanca que el resto del vidrio */
+  --glass-borde:           rgba(255,255,255,0.65);
+  --glass-sombra:          rgba(20,20,30,0.12);
+  --glass-blur:            18px;      /* Intensidad del desenfoque del vidrio */
+
+  /* ---------- 💡 LUZ INDIRECTA / GLOW AMBIENTAL ---------- */
+  --luz-blanca:            rgba(255,255,255,0.9);
+  --luz-roja:              rgba(200,16,46,0.55);
+  --luz-plateada:          rgba(180,195,255,0.35);
+
+  /* ---------- ✒️ TIPOGRAFÍA ---------- */
+  --font-display: 'Anton', 'Arial Narrow', sans-serif;      /* Titulares */
+  --font-cuerpo:  'Inter', -apple-system, sans-serif;        /* Texto */
+  --font-dato:    'Roboto Mono', monospace;                  /* Horarios / cifras */
+
+  /* Tamaños de fuente fluidos (se adaptan solos a cualquier pantalla) */
+  --fs-hero-titulo:   clamp(2.6rem, 6vw, 5.2rem);
+  --fs-h2:            clamp(1.9rem, 3.4vw, 3rem);
+  --fs-h3:            clamp(1.2rem, 2vw, 1.6rem);
+  --fs-eyebrow:       0.8rem;
+  --fs-cuerpo:        1rem;
+  --fs-cuerpo-grande: 1.15rem;
+  --fs-pequeno:       0.85rem;
+  --fs-stat-numero:   clamp(2.2rem, 4vw, 3.4rem);
+
+  /* ---------- 📐 DIMENSIONES / ESPACIADOS ---------- */
+  --radio-tarjeta:     22px;   /* Redondeo de tarjetas de vidrio */
+  --radio-boton:       50px;   /* Redondeo de botones (pill) */
+  --radio-chip:        10px;
+  --ancho-maximo:      1240px; /* Ancho máximo del contenido */
+  --espacio-seccion:   clamp(70px, 10vw, 140px); /* Padding vertical entre secciones */
+  --altura-nav:        84px;
+
+  --transicion: 0.45s cubic-bezier(.22,1,.36,1);
+}
+
+/* ---------- 🌙 MODO OSCURO — se activa con [data-theme="dark"] ---------- */
+[data-theme="dark"]{
+  --color-fondo:        #0A0A0D;
+  --color-superficie:   #17181C;
+  --color-texto:        #F5F6F8;             /* Texto principal en oscuro: casi blanco, máxima legibilidad */
+  --color-texto-suave:  #B7BCC5;             /* Texto secundario en oscuro, más claro que antes */
+  --color-gris-acero:   #9297A1;
+
+  /* 🔴 Rojo más claro y vibrante en modo oscuro, para resaltar sobre los grises ("plomos") */
+  --color-rojo:         #FF4D63;
+  --color-rojo-brillo:  #FF7285;
+
+  --glass-fondo:        rgba(26,27,33,0.6);
+  --glass-fondo-nav:    rgba(18,19,23,0.78); /* Barra de menú en oscuro: algo más opaca para contraste */
+  --glass-borde:        rgba(255,255,255,0.14);
+  --glass-sombra:       rgba(0,0,0,0.55);
+
+  --luz-blanca:         rgba(255,255,255,0.55);
+  --luz-roja:           rgba(255,60,80,0.45);
+  --luz-plateada:       rgba(120,140,255,0.25);
+}
+
+/* ================================================================
+   ██  2. RESET Y BASE
+================================================================ */
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family: var(--font-cuerpo);
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  overflow-x:hidden;
+  transition: background var(--transicion), color var(--transicion);
+  -webkit-font-smoothing:antialiased;
+}
+img{ max-width:100%; display:block; }
+a{ text-decoration:none; color:inherit; }
+ul{ list-style:none; }
+button{ font:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+section{ position:relative; z-index:1; }
+
+/* ================================================================
+   ██  3-B. RED DE SEGURIDAD DE COLOR
+   Cuando este código se pega dentro de WordPress/Elementor, el tema
+   del sitio suele traer sus propios estilos para h1-h6, p, botones,
+   etc. Como esas reglas "pisan" el color heredado, forzamos aquí
+   el color correcto para TODO el contenido dentro de #cair-club,
+   sin importar qué tema esté instalado.
+================================================================ */
+#cair-club h1, #cair-club h2, #cair-club h3, #cair-club h4, #cair-club h5, #cair-club h6{
+  color: var(--color-texto) !important;
+  margin:0;
+}
+#cair-club p, #cair-club li, #cair-club label{
+  color: var(--color-texto-suave);
+}
+#cair-club svg{ color: inherit; }
+.contenedor{
+  max-width: var(--ancho-maximo);
+  margin:0 auto;
+  padding:0 24px;
+}
+::selection{ background: var(--color-rojo); color:#fff; }
+
+/* Foco visible para accesibilidad de teclado */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible{
+  outline: 2px solid var(--color-rojo);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+}
+
+/* ================================================================
+   ██  3. FONDO AMBIENTAL — "LUZ INDIRECTA" (reflectores de estadio)
+   Estas manchas de luz están fijas detrás de todo el sitio y le dan
+   ese brillo suave tipo estadio nocturno / vidrio iluminado.
+================================================================ */
+.luz-ambiental{
+  position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;
+}
+.luz-ambiental span{
+  position:absolute; border-radius:50%;
+  filter: blur(90px);
+  opacity:0.75;
+  animation: flotar 18s ease-in-out infinite;
+}
+.luz-ambiental span:nth-child(1){
+  width:560px; height:560px; top:-180px; left:-120px;
+  background: radial-gradient(circle, var(--luz-roja), transparent 70%);
+}
+.luz-ambiental span:nth-child(2){
+  width:640px; height:640px; top:20%; right:-220px;
+  background: radial-gradient(circle, var(--luz-blanca), transparent 70%);
+  animation-delay:-6s;
+}
+.luz-ambiental span:nth-child(3){
+  width:500px; height:500px; bottom:-160px; left:35%;
+  background: radial-gradient(circle, var(--luz-plateada), transparent 70%);
+  animation-delay:-11s;
+}
+@keyframes flotar{
+  0%,100%{ transform: translate(0,0) scale(1); }
+  50%{ transform: translate(30px,-40px) scale(1.08); }
+}
+
+/* ================================================================
+   ██  4. UTILIDADES DE VIDRIO (glassmorphism reutilizable)
+================================================================ */
+.vidrio{
+  background: var(--glass-fondo);
+  border: 1px solid var(--glass-borde);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  border-radius: var(--radio-tarjeta);
+  box-shadow: 0 8px 32px var(--glass-sombra);
+  position:relative;
+  isolation:isolate;
+}
+/* brillo superior tipo reflejo de vidrio */
+.vidrio::before{
+  content:"";
+  position:absolute; inset:0; border-radius:inherit;
+  background: linear-gradient(135deg, rgba(255,255,255,0.35), transparent 45%);
+  pointer-events:none;
+  z-index:-1;
+}
+.eyebrow{
+  font-family:var(--font-dato);
+  font-size:var(--fs-eyebrow);
+  letter-spacing:0.22em;
+  text-transform:uppercase;
+  color:var(--color-rojo);
+  display:inline-flex; align-items:center; gap:10px;
+  font-weight:700;
+}
+.eyebrow::before{
+  content:""; width:26px; height:2px; background:var(--color-rojo); display:inline-block;
+}
+.titulo-seccion{
+  font-family:var(--font-display);
+  font-size:var(--fs-h2);
+  letter-spacing:0.01em;
+  text-transform:uppercase;
+  line-height:1.05;
+  margin:14px 0 18px;
+}
+.subtitulo-seccion{
+  color:var(--color-texto-suave);
+  font-size:var(--fs-cuerpo-grande);
+  max-width:640px;
+  line-height:1.6;
+}
+.cabecera-seccion{ margin-bottom:56px; }
+.cabecera-seccion.centrada{ text-align:center; margin-left:auto; margin-right:auto; }
+.cabecera-seccion.centrada .subtitulo-seccion{ margin:0 auto; }
+
+/* Botones */
+.boton{
+  display:inline-flex; align-items:center; justify-content:center; gap:10px;
+  padding:16px 34px;
+  border-radius: var(--radio-boton);
+  font-weight:700; font-size:0.95rem; letter-spacing:0.03em;
+  text-transform:uppercase;
+  transition: transform var(--transicion), box-shadow var(--transicion), background var(--transicion);
+  white-space:nowrap;
+}
+.boton-primario{
+  background: linear-gradient(135deg, var(--color-rojo-brillo), var(--color-rojo) 55%, var(--color-rojo-oscuro));
+  color:#fff;
+  box-shadow: 0 10px 30px rgba(200,16,46,0.35);
+}
+.boton-primario:hover{ transform: translateY(-3px); box-shadow: 0 16px 40px rgba(200,16,46,0.45); }
+.boton-secundario{
+  background: rgba(255,255,255,0.75);
+  border:1.5px solid rgba(11,11,13,0.16);
+  backdrop-filter: blur(12px);
+  color: var(--color-texto);
+  box-shadow: 0 4px 16px rgba(11,11,13,0.06);
+}
+[data-theme="dark"] .boton-secundario{
+  background: var(--glass-fondo);
+  border-color: var(--glass-borde);
+  box-shadow: none;
+}
+.boton-secundario:hover{ transform: translateY(-3px); border-color:var(--color-rojo); }
+
+/* Forma "escudo" — elemento firma del diseño, repite la geometría del crest CAIR */
+.marco-escudo{
+  clip-path: polygon(50% 0%, 100% 18%, 100% 56%, 50% 100%, 0% 56%, 0% 18%);
+}
+
+/* ================================================================
+   ██  5. NAVEGACIÓN
+================================================================ */
+.site-header{
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  height:var(--altura-nav);
+  display:flex; align-items:center;
+}
+.nav-vidrio{
+  width:100%; height:100%;
+  background: var(--glass-fondo-nav);
+  border-bottom:1px solid var(--glass-borde);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+}
+.nav-interior{
+  max-width: var(--ancho-maximo);
+  margin:0 auto; padding:0 24px; height:100%;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.marca{ display:flex; align-items:center; gap:12px; }
+.marca svg{ width:44px; height:auto; }
+.marca-texto{ font-family:var(--font-display); font-size:1.15rem; letter-spacing:0.04em; line-height:1; color:var(--color-texto); }
+.marca-texto span{ display:block; font-family:var(--font-dato); font-size:0.6rem; letter-spacing:0.25em; color:var(--color-texto-suave); font-weight:400; margin-top:3px; }
+
+.nav-links{ display:flex; align-items:center; gap:36px; }
+.nav-links a{
+  font-size:0.9rem; font-weight:600; text-transform:uppercase; letter-spacing:0.03em;
+  color:var(--color-texto); position:relative; padding:6px 0;
+}
+.nav-links a::after{
+  content:""; position:absolute; left:0; bottom:0; width:0%; height:2px; background:var(--color-rojo);
+  transition:width var(--transicion);
+}
+.nav-links a:hover::after, .nav-links a.activo::after{ width:100%; }
+.nav-links a.activo{ color:var(--color-rojo); }
+
+.nav-acciones{ display:flex; align-items:center; gap:14px; }
+.boton-tema{
+  width:44px; height:44px; border-radius:50%; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  /* Fondo sólido en degradado rojo: así el botón se ve siempre, sin depender
+     de si el vidrio detrás es claro u oscuro */
+  background: linear-gradient(150deg, var(--color-rojo-brillo), var(--color-rojo-oscuro));
+  border: none;
+  box-shadow: 0 6px 18px rgba(200,16,46,0.4), inset 0 0 0 1px rgba(255,255,255,0.25);
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+.boton-tema:hover{ transform:rotate(20deg) scale(1.05); box-shadow: 0 8px 22px rgba(200,16,46,0.55), inset 0 0 0 1px rgba(255,255,255,0.35); }
+.boton-tema svg{
+  width:21px; height:21px;
+  stroke: #ffffff !important;  /* blanco fijo: siempre visible sobre el fondo rojo, en claro y oscuro */
+  fill:none;
+  stroke-width:2.1;
+}
+.icono-luna{ display:none; }
+[data-theme="dark"] .icono-sol{ display:none; }
+[data-theme="dark"] .icono-luna{ display:block; }
+
+.boton-menu-movil{
+  display:none; width:44px; height:44px; border-radius:50%;
+  align-items:center; justify-content:center;
+  background: var(--glass-fondo); border:1px solid var(--glass-borde);
+}
+.boton-menu-movil span{ display:block; width:18px; height:2px; background:var(--color-texto); position:relative; }
+.boton-menu-movil span::before, .boton-menu-movil span::after{
+  content:""; position:absolute; left:0; width:18px; height:2px; background:var(--color-texto); transition:var(--transicion);
+}
+.boton-menu-movil span::before{ top:-6px; }
+.boton-menu-movil span::after{ top:6px; }
+
+/* ================================================================
+   ██  6. HERO
+================================================================ */
+.hero{
+  min-height:100vh;
+  display:flex; align-items:center;
+  padding-top: var(--altura-nav);
+  position:relative;
+  overflow:hidden;
+  background: var(--color-fondo);
+}
+
+/* ---------- 📷 Foto de fondo del Hero (estadio, tratada en duotono) ----------
+   Imagen: banco gratuito Pexels (uso libre, sin atribución obligatoria).
+   Para producción se recomienda descargarla y subirla a la Librería de Medios de WordPress.
+   Para cambiarla, reemplaza la URL dentro de background-image.
+   IMPORTANTE: el tratamiento (filtro + velo) es distinto en tema claro y oscuro
+   a propósito: en claro queda muy clara para que el texto oscuro se lea bien;
+   en oscuro queda oscura para que el texto claro se lea bien. */
+.hero-foto{
+  position:absolute; inset:0; z-index:0;
+  background-image: url('https://images.pexels.com/photos/1055844/pexels-photo-1055844.png?auto=compress&cs=tinysrgb&w=1920');
+  background-size:cover;
+  background-position:center 30%;
+  /* Tema claro (por defecto): foto muy aclarada, casi un fondo blanco con textura sutil */
+  filter: grayscale(1) contrast(1.05) brightness(1.75);
+  opacity:0.55;
+  transform: scale(1.05);
+}
+.hero-foto::after{
+  content:"";
+  position:absolute; inset:0;
+  /* Velo casi blanco en tema claro: garantiza contraste del texto oscuro */
+  background:
+    linear-gradient(100deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.8) 42%, rgba(255,255,255,0.94) 100%),
+    linear-gradient(180deg, rgba(255,255,255,0.35) 0%, var(--color-fondo) 88%),
+    radial-gradient(ellipse 620px 380px at 10% 12%, rgba(200,16,46,0.10), transparent 62%);
+}
+[data-theme="dark"] .hero-foto{
+  /* Tema oscuro: foto oscurecida y con más contraste, look estadio nocturno */
+  filter: grayscale(1) contrast(1.3) brightness(0.32);
+  opacity:1;
+}
+[data-theme="dark"] .hero-foto::after{
+  background:
+    linear-gradient(180deg, rgba(10,10,13,0.55) 0%, var(--color-fondo) 92%),
+    linear-gradient(100deg, rgba(200,16,46,0.35), transparent 55%);
+}
+.hero-grid, .hero-stats{ position:relative; z-index:2; }
+.hero-grid{
+  display:grid; grid-template-columns: 1.1fr 0.9fr; gap:60px; align-items:center;
+  padding: 60px 0 110px;
+}
+.hero-texto{ position:relative; z-index:3; }
+/* Resplandor suave y adaptable detrás del bloque de texto: separa el contenido
+   del fondo sin crear una "caja" visible, y se ajusta solo entre tema claro/oscuro */
+.hero-texto::before{
+  content:"";
+  position:absolute;
+  left:-48px; right:-10%; top:-60px; bottom:-60px;
+  background: radial-gradient(ellipse 620px 480px at 22% 42%, var(--color-fondo) 0%, transparent 72%);
+  z-index:-1;
+  opacity:0.92;
+  pointer-events:none;
+}
+.hero-texto .eyebrow{ margin-bottom:20px; }
+.hero-titulo{
+  font-family: var(--font-display);
+  font-size: var(--fs-hero-titulo);
+  line-height:0.98;
+  text-transform:uppercase;
+  letter-spacing:0.005em;
+  text-shadow: 0 2px 24px rgba(0,0,0,0); /* sin sombra en claro: no hace falta con fondo casi blanco */
+}
+[data-theme="dark"] .hero-titulo{ text-shadow: 0 6px 34px rgba(0,0,0,0.55); } /* leve profundidad en oscuro */
+.hero-titulo .linea-roja{
+  background: linear-gradient(100deg, var(--color-rojo-oscuro), var(--color-rojo-brillo));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.hero-lema{
+  margin-top:22px; font-size:var(--fs-cuerpo-grande); color:var(--color-texto-suave);
+  max-width:520px; line-height:1.7;
+}
+.hero-cta{ display:flex; gap:16px; margin-top:38px; flex-wrap:wrap; }
+
+.hero-visual{ position:relative; display:flex; justify-content:center; z-index:2; }
+.hero-escudo-grande{
+  width:min(360px, 80%);
+  filter: drop-shadow(0 30px 60px rgba(200,16,46,0.35));
+  animation: latir 5s ease-in-out infinite;
+}
+@keyframes latir{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.025); } }
+
+.hero-stats{
+  margin-top: -70px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:20px;
+}
+.stat-tarjeta{
+  padding:26px 20px; text-align:center;
+  background: rgba(255,255,255,0.7);
+  border-color: rgba(11,11,13,0.09);
+  box-shadow: 0 10px 28px rgba(11,11,13,0.07);
+}
+[data-theme="dark"] .stat-tarjeta{
+  background: var(--glass-fondo);
+  border-color: var(--glass-borde);
+  box-shadow: 0 8px 32px var(--glass-sombra);
+}
+.stat-numero{
+  font-family:var(--font-dato); font-weight:700;
+  font-size: var(--fs-stat-numero);
+  color: var(--color-rojo);
+  line-height:1;
+}
+.stat-etiqueta{
+  margin-top:8px; font-size:var(--fs-pequeno); text-transform:uppercase; letter-spacing:0.08em;
+  color: var(--color-texto-suave); font-weight:600;
+}
+
+/* ================================================================
+   ██  7. FRANJA DE VALORES (marquee)
+================================================================ */
+.franja-valores{
+  border-top:1px solid var(--glass-borde); border-bottom:1px solid var(--glass-borde);
+  background: var(--glass-fondo);
+  overflow:hidden; padding:16px 0;
+}
+.marquee-track{
+  display:flex; gap:60px; width:max-content;
+  animation: desplazar 28s linear infinite;
+}
+.marquee-track span{
+  font-family:var(--font-display); text-transform:uppercase; letter-spacing:0.04em;
+  font-size:1.1rem; color:var(--color-texto-suave); display:flex; align-items:center; gap:16px;
+}
+.marquee-track span em{ color:var(--color-rojo); font-style:normal; }
+@keyframes desplazar{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+/* ================================================================
+   ██  8. SECCIÓN GENÉRICA
+================================================================ */
+.seccion{ padding: var(--espacio-seccion) 0; }
+.seccion-alterna{ background: var(--color-superficie); }
+
+/* ---------- Metodología ---------- */
+.grid-metodo{ display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.tarjeta-metodo{
+  padding:34px 26px; transition: transform var(--transicion), border-color var(--transicion);
+}
+.tarjeta-metodo:hover{ transform: translateY(-8px); border-color: var(--color-rojo); }
+.tarjeta-metodo .num{
+  font-family:var(--font-dato); font-size:0.8rem; color:var(--color-rojo); font-weight:700;
+}
+.icono-metodo{
+  width:52px; height:52px; border-radius:16px; margin:16px 0 18px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(135deg, var(--color-rojo), var(--color-rojo-oscuro));
+  box-shadow: 0 10px 24px rgba(200,16,46,0.35);
+}
+.icono-metodo svg{ width:26px; height:26px; stroke:#fff; }
+.tarjeta-metodo h3{ font-family:var(--font-display); font-size:var(--fs-h3); text-transform:uppercase; margin-bottom:10px; letter-spacing:0.01em; }
+.tarjeta-metodo p{ color:var(--color-texto-suave); line-height:1.65; font-size:0.95rem; }
+
+/* ---------- Categorías / horarios ---------- */
+.layout-categorias{ display:grid; grid-template-columns: 0.85fr 1.15fr; gap:46px; align-items:start; }
+.lista-info-categoria{ margin-top:26px; display:flex; flex-direction:column; gap:16px; }
+.info-item{ display:flex; gap:14px; align-items:flex-start; }
+.info-item .punto{
+  width:34px; height:34px; border-radius:10px; flex:none;
+  display:flex; align-items:center; justify-content:center;
+  background: var(--glass-fondo); border:1px solid var(--glass-borde);
+}
+.info-item .punto svg{ width:16px; height:16px; }
+.info-item strong{ display:block; font-size:0.95rem; color:var(--color-texto); }
+.info-item span{ font-size:0.88rem; color:var(--color-texto-suave); }
+
+.tabla-vidrio{ padding: 10px; overflow:hidden; }
+.tabla-vidrio table{ width:100%; border-collapse:collapse; }
+.tabla-vidrio thead th{
+  text-align:left; padding:16px 18px; font-family:var(--font-dato);
+  text-transform:uppercase; font-size:0.72rem; letter-spacing:0.12em;
+  color:#fff; background: linear-gradient(120deg, var(--color-rojo-oscuro), var(--color-rojo));
+}
+.tabla-vidrio thead th:first-child{ border-radius:14px 0 0 14px; }
+.tabla-vidrio thead th:last-child{ border-radius:0 14px 14px 0; }
+.tabla-vidrio tbody td{
+  padding:16px 18px; font-size:0.9rem; border-bottom:1px solid var(--glass-borde);
+  color: var(--color-texto);
+}
+.tabla-vidrio tbody tr:last-child td{ border-bottom:none; }
+.tabla-vidrio tbody td.categoria{ font-weight:700; }
+.tabla-vidrio tbody td.horario{ font-family:var(--font-dato); color:var(--color-rojo); font-weight:600; }
+.chip-nivel{
+  display:inline-block; padding:4px 12px; border-radius:var(--radio-chip);
+  font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700;
+  background: rgba(200,16,46,0.12); color: var(--color-rojo);
+}
+
+/* ---------- Cuerpo técnico ---------- */
+.grid-staff{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+.tarjeta-staff{ padding:30px 22px; text-align:center; }
+.avatar-escudo{
+  width:96px; height:96px; margin:0 auto 18px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(150deg, var(--color-rojo), var(--color-rojo-oscuro));
+  color:#fff; font-family:var(--font-display); font-size:1.6rem;
+  box-shadow: 0 12px 26px rgba(200,16,46,0.35);
+}
+.tarjeta-staff h3{ font-size:1.05rem; font-weight:700; }
+.tarjeta-staff .rol{ font-family:var(--font-dato); font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--color-rojo); margin:6px 0 12px; }
+.tarjeta-staff p{ font-size:0.85rem; color:var(--color-texto-suave); line-height:1.6; }
+
+/* ---------- Torneos internos / trayectoria ---------- */
+.linea-tiempo{ position:relative; margin-top:40px; padding-left:40px; }
+.linea-tiempo::before{
+  content:""; position:absolute; left:9px; top:6px; bottom:6px; width:2px;
+  background: linear-gradient(var(--color-rojo), transparent);
+}
+.hito{ position:relative; padding-bottom:42px; }
+.hito:last-child{ padding-bottom:0; }
+.hito::before{
+  content:""; position:absolute; left:-40px; top:4px; width:20px; height:20px; border-radius:50%;
+  background: var(--color-superficie); border:3px solid var(--color-rojo);
+}
+.hito-anio{ font-family:var(--font-dato); color:var(--color-rojo); font-weight:700; font-size:0.85rem; }
+.hito h3{ font-family:var(--font-display); text-transform:uppercase; font-size:1.25rem; margin:6px 0 8px; letter-spacing:0.01em; }
+.hito p{ color:var(--color-texto-suave); max-width:560px; line-height:1.65; font-size:0.95rem; }
+
+.panel-copa{ padding:44px 34px; text-align:center; }
+.panel-copa svg{ width:64px; height:64px; margin:0 auto 18px; }
+.panel-copa h3{ font-family:var(--font-display); text-transform:uppercase; font-size:1.4rem; margin-bottom:10px; }
+.panel-copa p{ color:var(--color-texto-suave); font-size:0.9rem; line-height:1.6; }
+.layout-torneos{ display:grid; grid-template-columns:1.3fr 0.7fr; gap:50px; align-items:start; }
+
+/* ---------- Instalaciones ---------- */
+.grid-instalaciones{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.tarjeta-instalacion{
+  aspect-ratio:4/3; border-radius:var(--radio-tarjeta); position:relative; overflow:hidden;
+  display:flex; align-items:flex-end; padding:22px;
+  border:1px solid var(--glass-borde);
+  background-size:cover; background-position:center;
+  transition: transform var(--transicion);
+}
+.tarjeta-instalacion:hover{ transform: translateY(-6px); }
+/* Fotos reales (Pexels, libres de uso) llevadas a blanco y negro + velo rojo/negro
+   para que compartan un único estilo visual con el resto del sitio. */
+.tarjeta-instalacion::before{
+  content:""; position:absolute; inset:0; z-index:0;
+  filter: grayscale(1) contrast(1.2) brightness(0.55);
+  background-size:cover; background-position:center;
+}
+.ti-1::before{ background-image: url('https://images.pexels.com/photos/46798/the-ball-stadion-football-the-pitch-46798.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+.ti-2::before{ background-image: url('https://images.pexels.com/photos/27810163/pexels-photo-27810163.jpeg?auto=compress&cs=tinysrgb&w=1200'); }
+/* Vestuarios: sin foto (para no usar imágenes de interiores/personas sin licencia confirmada);
+   se resuelve con una textura de "casilleros" ilustrada, en el mismo estilo rojo/negro del sitio.
+   📷 Si querés poner una foto real de tu camerín, reemplazá este bloque por:
+   .ti-3::before{ background-image:url('TU-FOTO.jpg'); } */
+.ti-3::before{
+  background:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 38px),
+    linear-gradient(155deg, #1a1c22, #2a0912 130%);
+}
+.tarjeta-instalacion::after{
+  content:""; position:absolute; inset:0; z-index:1;
+  background:
+    linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 60%),
+    linear-gradient(100deg, rgba(200,16,46,0.3), transparent 60%);
+}
+.tarjeta-instalacion span{ position:relative; z-index:2; color:#fff !important; font-family:var(--font-display); font-size:1.2rem; text-transform:uppercase; }
+.tarjeta-instalacion small{ position:relative; z-index:2; display:block; color:rgba(255,255,255,0.8) !important; font-size:0.78rem; margin-top:4px; }
+
+/* ---------- Testimonios ---------- */
+.grid-testimonios{ display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+.tarjeta-testimonio{ padding:30px 26px; }
+.tarjeta-testimonio .comillas{ font-family:var(--font-display); font-size:2.6rem; color:var(--color-rojo); line-height:0.6; display:block; margin-bottom:10px; }
+.tarjeta-testimonio p{ color:var(--color-texto-suave); line-height:1.7; font-size:0.95rem; }
+.autor-testimonio{ display:flex; align-items:center; gap:12px; margin-top:22px; }
+.autor-testimonio .foto{
+  width:44px; height:44px; border-radius:50%;
+  background: linear-gradient(150deg, var(--color-rojo), var(--color-rojo-oscuro));
+  display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; font-family:var(--font-display);
+}
+.autor-testimonio strong{ display:block; font-size:0.9rem; color:var(--color-texto); }
+.autor-testimonio span{ font-size:0.78rem; color:var(--color-texto-suave); }
+
+/* ---------- CTA / Inscripción ---------- */
+.panel-cta{
+  position:relative; overflow:hidden;
+  padding: 64px 50px;
+  display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:center;
+  background-image:
+    linear-gradient(120deg, rgba(11,11,13,0.93), rgba(42,9,18,0.93) 70%),
+    url('https://images.pexels.com/photos/1055844/pexels-photo-1055844.png?auto=compress&cs=tinysrgb&w=1600');
+  background-size:cover; background-position:center;
+  color:#fff; border-radius: 32px;
+}
+.panel-cta::before{
+  content:""; position:absolute; inset:0;
+  background: radial-gradient(circle at 85% 20%, rgba(255,60,80,0.35), transparent 55%);
+}
+.panel-cta > *{ position:relative; z-index:1; }
+/* Especificidad reforzada (#cair-club + .panel-cta) para ganarle a la red de seguridad de color */
+#cair-club .panel-cta .titulo-seccion{ color:#fff !important; }
+#cair-club .panel-cta .subtitulo-seccion{ color:rgba(255,255,255,0.7) !important; }
+.lista-cta{ margin-top:26px; display:flex; flex-direction:column; gap:12px; }
+#cair-club .lista-cta li{ display:flex; gap:10px; align-items:center; font-size:0.92rem; color:rgba(255,255,255,0.85) !important; }
+.lista-cta svg{ width:18px; height:18px; flex:none; stroke: var(--color-rojo-brillo); }
+
+.formulario{
+  background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.14);
+  backdrop-filter: blur(16px);
+  border-radius: 24px; padding:32px;
+  display:grid; gap:16px;
+}
+.campo{ display:flex; flex-direction:column; gap:6px; }
+#cair-club .campo label{ font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em; color:rgba(255,255,255,0.65) !important; }
+.campo input, .campo select{
+  background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18);
+  border-radius:12px; padding:13px 16px; color:#fff; font-family:var(--font-cuerpo); font-size:0.92rem;
+}
+.campo input::placeholder{ color:rgba(255,255,255,0.4); }
+.campo select option{ color:#111; }
+.dos-columnas{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.formulario .boton-primario{ width:100%; margin-top:6px; }
+
+/* ================================================================
+   ██  9. FOOTER
+================================================================ */
+.site-footer{
+  padding: 70px 0 30px;
+  background: var(--color-negro);
+  color: rgba(255,255,255,0.75);
+}
+.footer-grid{ display:grid; grid-template-columns: 1.3fr 0.8fr 0.8fr 1fr; gap:44px; margin-bottom:50px; }
+.footer-marca{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+.footer-marca svg{ width:40px; }
+.footer-marca-texto{ font-family:var(--font-display); color:#fff; font-size:1.1rem; letter-spacing:0.03em; }
+#cair-club .site-footer p{ font-size:0.88rem; line-height:1.7; max-width:280px; color:rgba(255,255,255,0.55) !important; }
+#cair-club .site-footer h4{ color:#fff !important; font-family:var(--font-display); font-size:0.95rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:18px; }
+.site-footer ul{ display:flex; flex-direction:column; gap:12px; }
+.site-footer ul a{ font-size:0.88rem; color:rgba(255,255,255,0.6); transition:color var(--transicion); }
+.site-footer ul a:hover{ color:var(--color-rojo-brillo); }
+.redes{ display:flex; gap:10px; margin-top:18px; }
+.redes a{
+  width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  background: rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+  transition: background var(--transicion), transform var(--transicion);
+}
+.redes a:hover{ background: var(--color-rojo); transform: translateY(-3px); }
+.redes svg{ width:16px; height:16px; stroke:#fff; }
+.footer-base{
+  border-top:1px solid rgba(255,255,255,0.1); padding-top:26px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+  font-size:0.8rem; color:rgba(255,255,255,0.45);
+}
+
+/* ================================================================
+   ██  10. ANIMACIONES DE ENTRADA (scroll reveal)
+================================================================ */
+.reveal{ opacity:0; transform: translateY(34px); transition: opacity 0.9s ease, transform 0.9s ease; }
+.reveal.visible{ opacity:1; transform:none; }
+.reveal-stagger.visible > *{ opacity:1; transform:none; }
+.reveal-stagger > *{ opacity:0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal-stagger > *:nth-child(1){ transition-delay:0.05s; }
+.reveal-stagger > *:nth-child(2){ transition-delay:0.15s; }
+.reveal-stagger > *:nth-child(3){ transition-delay:0.25s; }
+.reveal-stagger > *:nth-child(4){ transition-delay:0.35s; }
+
+/* Botón volver arriba */
+.volver-arriba{
+  position:fixed; right:26px; bottom:26px; z-index:90;
+  width:50px; height:50px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background: var(--color-rojo); color:#fff; box-shadow:0 10px 26px rgba(200,16,46,0.4);
+  opacity:0; pointer-events:none; transform: translateY(12px);
+  transition: opacity var(--transicion), transform var(--transicion);
+}
+.volver-arriba.visible{ opacity:1; pointer-events:auto; transform:none; }
+.volver-arriba svg{ width:20px; height:20px; }
+
+/* ================================================================
+   ██  11. RESPONSIVE — TABLET (≤1024px)
+================================================================ */
+@media (max-width:1024px){
+  .hero-grid{ grid-template-columns:1fr; gap:40px; padding-bottom:90px; }
+  .hero-visual{ order:-1; }
+  .hero-escudo-grande{ width:220px; }
+  .hero-stats{ grid-template-columns:repeat(2,1fr); margin-top:34px; }
+  .grid-metodo{ grid-template-columns:repeat(2,1fr); }
+  .layout-categorias{ grid-template-columns:1fr; }
+  .grid-staff{ grid-template-columns:repeat(2,1fr); }
+  .layout-torneos{ grid-template-columns:1fr; }
+  .grid-instalaciones{ grid-template-columns:repeat(2,1fr); }
+  .grid-testimonios{ grid-template-columns:1fr 1fr; }
+  .panel-cta{ grid-template-columns:1fr; padding:44px 30px; }
+  .footer-grid{ grid-template-columns:1fr 1fr; }
+}
+
+/* ================================================================
+   ██  12. RESPONSIVE — MÓVIL (≤680px)
+================================================================ */
+@media (max-width:680px){
+  :root{ --espacio-seccion: 64px; --altura-nav:70px; }
+  .nav-links{
+    position:fixed; top:70px; left:0; right:0; bottom:0;
+    flex-direction:column; justify-content:flex-start; align-items:flex-start;
+    padding:34px 26px; gap:22px;
+    background: var(--color-fondo);
+    transform: translateX(100%); transition: transform var(--transicion);
+  }
+  .nav-links.abierto{ transform:translateX(0); }
+  .boton-menu-movil{ display:flex; }
+  .hero-stats{ grid-template-columns:repeat(2,1fr); gap:14px; }
+  .stat-tarjeta{ padding:18px 12px; }
+  .hero-cta{ flex-direction:column; }
+  .boton{ width:100%; }
+  .grid-metodo{ grid-template-columns:1fr; }
+  .grid-staff{ grid-template-columns:1fr; }
+  .grid-instalaciones{ grid-template-columns:1fr; }
+  .grid-testimonios{ grid-template-columns:1fr; }
+  .dos-columnas{ grid-template-columns:1fr; }
+  .footer-grid{ grid-template-columns:1fr; gap:32px; }
+  .footer-base{ flex-direction:column; align-items:flex-start; }
+  .tabla-vidrio{ overflow-x:auto; }
+  .tabla-vidrio table{ min-width:520px; }
+}
+
+</style>
+</head>
+<body data-theme="light">
+<!-- ⬇️ TODO el sitio vive dentro de este div con id="cair-club".
+     Esto asegura que el modo claro/oscuro y los colores funcionen
+     igual pegado en Elementor que en un navegador normal. ⬇️ -->
+<div id="cair-club" data-theme="light">
+
+<!-- Manchas de luz ambiental fijas (efecto "luz indirecta" tipo reflectores) -->
+<div class="luz-ambiental" aria-hidden="true"><span></span><span></span><span></span></div>
+
+<!-- ============================================================
+     NAVEGACIÓN
+============================================================= -->
+<header class="site-header">
+  <div class="nav-vidrio">
+    <div class="nav-interior">
+      <a href="#inicio" class="marca">
+        <!-- Escudo SVG (vectorial, editable por color en las variables --color-rojo / --color-negro) -->
+        <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 4 L192 40 C192 96 178 168 100 216 C22 168 8 96 8 40 Z" fill="#fff" stroke="var(--color-negro)" stroke-width="7"/>
+          <path d="M100 4 L192 40 C192 70 187 108 168 142 L100 4Z" fill="var(--color-rojo)"/>
+          <path d="M8 40 L100 216 C55 190 22 140 10 80 Z" fill="var(--color-rojo)"/>
+          <text x="100" y="132" text-anchor="middle" font-family="Anton, sans-serif" font-size="70" fill="var(--color-negro)">CAIR</text>
+        </svg>
+        <span class="marca-texto">C.A.I.R<span>Club Atlético Internacional</span></span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#inicio" class="activo">Inicio</a>
+        <a href="#nosotros">Metodología</a>
+        <a href="#categorias">Categorías</a>
+        <a href="#cuerpo-tecnico">Cuerpo técnico</a>
+        <a href="#torneos">Torneos</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <div class="nav-acciones">
+        <button class="boton-tema" id="botonTema" aria-label="Cambiar tema claro / oscuro">
+          <svg class="icono-sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+          <svg class="icono-luna" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        </button>
+        <a href="#contacto" class="boton boton-primario" style="padding:12px 24px; font-size:0.82rem;">Inscríbete</a>
+        <button class="boton-menu-movil" id="botonMenuMovil" aria-label="Abrir menú"><span></span></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     HERO
+============================================================= -->
+<section class="hero" id="inicio">
+  <div class="hero-foto" aria-hidden="true"></div>
+  <div class="contenedor">
+    <div class="hero-grid">
+      <div class="hero-texto reveal">
+        <span class="eyebrow">Escuela · Formativas · Primera</span>
+        <h1 class="hero-titulo">FORMAMOS<br>FUTBOLISTAS,<br><span class="linea-roja">CONSTRUIMOS</span><br>CAMPEONES</h1>
+        <p class="hero-lema">En el Club Atlético Internacional CAIR entrenamos a jugadores de todas las edades y categorías con un cuerpo técnico de amplia trayectoria, metodología de clubes profesionales y una única obsesión: hacerte mejor cada día.</p>
+        <div class="hero-cta">
+          <a href="#contacto" class="boton boton-primario">Quiero inscribirme</a>
+          <a href="#categorias" class="boton boton-secundario">Ver categorías y horarios</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal">
+        <svg class="hero-escudo-grande" viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 4 L192 40 C192 96 178 168 100 216 C22 168 8 96 8 40 Z" fill="#fff" stroke="var(--color-negro)" stroke-width="7"/>
+          <path d="M100 4 L192 40 C192 70 187 108 168 142 L100 4Z" fill="var(--color-rojo)"/>
+          <path d="M8 40 L100 216 C55 190 22 140 10 80 Z" fill="var(--color-rojo)"/>
+          <text x="100" y="132" text-anchor="middle" font-family="Anton, sans-serif" font-size="70" fill="var(--color-negro)">CAIR</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cifras del club (edita los números directamente en el texto) -->
+    <div class="hero-stats reveal-stagger">
+      <div class="stat-tarjeta vidrio">
+        <div class="stat-numero">18</div>
+        <div class="stat-etiqueta">Años de trayectoria</div>
+      </div>
+      <div class="stat-tarjeta vidrio">
+        <div class="stat-numero">12</div>
+        <div class="stat-etiqueta">Categorías activas</div>
+      </div>
+      <div class="stat-tarjeta vidrio">
+        <div class="stat-numero">1.400+</div>
+        <div class="stat-etiqueta">Jugadores formados</div>
+      </div>
+      <div class="stat-tarjeta vidrio">
+        <div class="stat-numero">27</div>
+        <div class="stat-etiqueta">Títulos conquistados</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Franja de valores en movimiento -->
+<div class="franja-valores">
+  <div class="marquee-track" aria-hidden="true">
+    <span><em>✦</em> Disciplina</span>
+    <span><em>✦</em> Respeto</span>
+    <span><em>✦</em> Compañerismo</span>
+    <span><em>✦</em> Superación</span>
+    <span><em>✦</em> Pasión</span>
+    <span><em>✦</em> Unión</span>
+    <span><em>✦</em> Gloria</span>
+    <span><em>✦</em> Disciplina</span>
+    <span><em>✦</em> Respeto</span>
+    <span><em>✦</em> Compañerismo</span>
+    <span><em>✦</em> Superación</span>
+    <span><em>✦</em> Pasión</span>
+    <span><em>✦</em> Unión</span>
+    <span><em>✦</em> Gloria</span>
+  </div>
+</div>
+
+<!-- ============================================================
+     METODOLOGÍA
+============================================================= -->
+<section class="seccion" id="nosotros">
+  <div class="contenedor">
+    <div class="cabecera-seccion reveal">
+      <span class="eyebrow">Nuestra metodología</span>
+      <h2 class="titulo-seccion">Entrenamos como los grandes clubes</h2>
+      <p class="subtitulo-seccion">Aplicamos un plan de formación integral, el mismo enfoque que usan las instituciones profesionales: técnica individual, táctica colectiva, preparación física progresiva y desarrollo de valores dentro y fuera de la cancha.</p>
+    </div>
+
+    <div class="grid-metodo reveal-stagger">
+      <div class="tarjeta-metodo vidrio">
+        <span class="num">01</span>
+        <div class="icono-metodo"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18"/></svg></div>
+        <h3>Técnica individual</h3>
+        <p>Trabajo diario de control, pase, definición y toma de decisiones adaptado a la edad y el nivel de cada jugador.</p>
+      </div>
+      <div class="tarjeta-metodo vidrio">
+        <span class="num">02</span>
+        <div class="icono-metodo"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg></div>
+        <h3>Táctica y estrategia</h3>
+        <p>Lectura de juego, sistemas y esquemas tácticos analizados con pizarra digital y video, igual que un club de primera.</p>
+      </div>
+      <div class="tarjeta-metodo vidrio">
+        <span class="num">03</span>
+        <div class="icono-metodo"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M13 2 3 14h7l-1 8 11-14h-7z"/></svg></div>
+        <h3>Preparación física</h3>
+        <p>Planes de fuerza, velocidad y resistencia diseñados por preparadores físicos según cada etapa de crecimiento.</p>
+      </div>
+      <div class="tarjeta-metodo vidrio">
+        <span class="num">04</span>
+        <div class="icono-metodo"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6Z"/></svg></div>
+        <h3>Valores y disciplina</h3>
+        <p>Formamos personas antes que futbolistas: respeto, trabajo en equipo, puntualidad y compromiso con el club.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CATEGORÍAS Y HORARIOS
+============================================================= -->
+<section class="seccion seccion-alterna" id="categorias">
+  <div class="contenedor">
+    <div class="layout-categorias">
+      <div class="reveal">
+        <span class="eyebrow">Programas</span>
+        <h2 class="titulo-seccion">Categorías y horarios de entrenamiento</h2>
+        <p class="subtitulo-seccion">Desde la escuela de fútbol infantil hasta el plantel superior, cada categoría tiene su propio plan de trabajo, cuerpo técnico asignado y objetivos de la temporada.</p>
+
+        <div class="lista-info-categoria">
+          <div class="info-item">
+            <div class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-rojo)" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+            <div><strong>Llegar 10 minutos antes</strong><span>Para el calentamiento y la charla técnica previa.</span></div>
+          </div>
+          <div class="info-item">
+            <div class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-rojo)" stroke-width="2"><path d="M8 3v4M16 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z"/></svg></div>
+            <div><strong>Botella de agua propia</strong><span>Hidratación obligatoria en cada sesión de entrenamiento.</span></div>
+          </div>
+          <div class="info-item">
+            <div class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-rojo)" stroke-width="2"><path d="M20.4 7.5 15 3 12 5 9 3l-5.4 4.5L6 10v10h12V10Z"/></svg></div>
+            <div><strong>Indumentaria deportiva completa</strong><span>Botines, canilleras y ropa adecuada para cada superficie.</span></div>
+          </div>
+          <div class="info-item">
+            <div class="punto"><svg viewBox="0 0 24 24" fill="none" stroke="var(--color-rojo)" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 8.5a3 3 0 1 1 4 2.8M17 14.2a6 6 0 0 1 4.5 5.8"/></svg></div>
+            <div><strong>Respeto a compañeros y entrenadores</strong><span>El eje de nuestra convivencia dentro y fuera de la cancha.</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabla-vidrio vidrio reveal">
+        <table>
+          <thead>
+            <tr><th>Categoría</th><th>Días</th><th>Horario</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="categoria">Sub-8 · Sub-10 <span class="chip-nivel">Escuela</span></td><td>Lun · Mié</td><td class="horario">16:00 – 17:30</td></tr>
+            <tr><td class="categoria">Sub-12 · Sub-14 <span class="chip-nivel">Formativas</span></td><td>Mar · Jue</td><td class="horario">17:00 – 18:45</td></tr>
+            <tr><td class="categoria">Sub-16 · Sub-18 <span class="chip-nivel">Formativas</span></td><td>Lun a Vie</td><td class="horario">18:00 – 20:00</td></tr>
+            <tr><td class="categoria">Sub-20 · Reserva <span class="chip-nivel">Superior</span></td><td>Lun a Sáb</td><td class="horario">07:00 – 09:30</td></tr>
+            <tr><td class="categoria">Primera División <span class="chip-nivel">Superior</span></td><td>Lun a Sáb</td><td class="horario">09:00 – 12:00</td></tr>
+            <tr><td class="categoria">Fútbol Femenino <span class="chip-nivel">Todas las edades</span></td><td>Mar · Jue · Sáb</td><td class="horario">15:30 – 17:30</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CUERPO TÉCNICO
+============================================================= -->
+<section class="seccion" id="cuerpo-tecnico">
+  <div class="contenedor">
+    <div class="cabecera-seccion centrada reveal">
+      <span class="eyebrow">Cuerpo técnico</span>
+      <h2 class="titulo-seccion">Profesionales con amplia experiencia</h2>
+      <p class="subtitulo-seccion">Un equipo multidisciplinario acompaña a cada jugador: dirección técnica, preparación física, apoyo médico y psicológico, con el estándar de un club profesional.</p>
+    </div>
+
+    <div class="grid-staff reveal-stagger">
+      <div class="tarjeta-staff vidrio">
+        <div class="avatar-escudo marco-escudo">MR</div>
+        <h3>Miguel Rojas</h3>
+        <div class="rol">Director técnico</div>
+        <p>Licenciado en Ciencias del Deporte, más de 15 años dirigiendo divisiones formativas y primer equipo.</p>
+      </div>
+      <div class="tarjeta-staff vidrio">
+        <div class="avatar-escudo marco-escudo">CA</div>
+        <h3>Carla Aranda</h3>
+        <div class="rol">Preparadora física</div>
+        <p>Especialista en rendimiento y prevención de lesiones para jugadores en etapa de crecimiento.</p>
+      </div>
+      <div class="tarjeta-staff vidrio">
+        <div class="avatar-escudo marco-escudo">JT</div>
+        <h3>Javier Torres</h3>
+        <div class="rol">Coordinador de menores</div>
+        <p>A cargo de la metodología formativa desde Sub-8 hasta Sub-14, foco en el desarrollo técnico.</p>
+      </div>
+      <div class="tarjeta-staff vidrio">
+        <div class="avatar-escudo marco-escudo">SL</div>
+        <h3>Sofía León</h3>
+        <div class="rol">Psicóloga deportiva</div>
+        <p>Acompaña el desarrollo emocional del jugador: manejo de presión, motivación y trabajo en equipo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TORNEOS INTERNOS Y TRAYECTORIA
+============================================================= -->
+<section class="seccion seccion-alterna" id="torneos">
+  <div class="contenedor">
+    <div class="cabecera-seccion reveal">
+      <span class="eyebrow">Torneos y trayectoria</span>
+      <h2 class="titulo-seccion">Competencia interna todo el año</h2>
+      <p class="subtitulo-seccion">Organizamos torneos internos por categoría durante toda la temporada para que cada jugador compita, mida su progreso y viva la presión de un partido oficial.</p>
+    </div>
+
+    <div class="layout-torneos">
+      <div class="linea-tiempo reveal">
+        <div class="hito">
+          <div class="hito-anio">Marzo — Apertura</div>
+          <h3>Copa de Pretemporada CAIR</h3>
+          <p>Torneo relámpago entre todas las categorías para evaluar el estado físico y armar los planteles de la temporada.</p>
+        </div>
+        <div class="hito">
+          <div class="hito-anio">Julio — Mitad de año</div>
+          <h3>Torneo Interno "Clásico de Categorías"</h3>
+          <p>Enfrentamientos cruzados entre divisiones formativas con tabla de posiciones, estadísticas y premiación individual.</p>
+        </div>
+        <div class="hito">
+          <div class="hito-anio">Octubre — Clausura</div>
+          <h3>Copa de Clausura y Final de Temporada</h3>
+          <p>Cierre del año competitivo con semifinales y final jugadas en nuestro estadio principal frente a las familias del club.</p>
+        </div>
+        <div class="hito">
+          <div class="hito-anio">Diciembre — Gala anual</div>
+          <h3>Noche de Premiación CAIR</h3>
+          <p>Reconocimiento al mejor jugador, goleador y valor del año en cada categoría, junto a todo el cuerpo técnico.</p>
+        </div>
+      </div>
+
+      <div class="panel-copa vidrio reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--color-rojo)" stroke-width="1.6"><path d="M7 4h10v4a5 5 0 0 1-10 0V4Z"/><path d="M7 5H4a3 3 0 0 0 3 6M17 5h3a3 3 0 0 1-3 6"/><path d="M12 13v4M9 21h6M8 21c0-2 1.5-3 4-4 2.5 1 4 2 4 4"/></svg>
+        <h3>27 títulos en 18 años</h3>
+        <p>Ligas locales, torneos regionales y campeonatos internos que consolidan al CAIR como semillero de futbolistas de alto nivel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INSTALACIONES
+============================================================= -->
+<section class="seccion" id="instalaciones">
+  <div class="contenedor">
+    <div class="cabecera-seccion centrada reveal">
+      <span class="eyebrow">Instalaciones</span>
+      <h2 class="titulo-seccion">Infraestructura de nivel profesional</h2>
+      <p class="subtitulo-seccion">Canchas reglamentarias, gimnasio propio y sala de video para que cada entrenamiento tenga las condiciones de un club de primer nivel.</p>
+    </div>
+
+    <div class="grid-instalaciones reveal-stagger">
+      <div class="tarjeta-instalacion ti-1"><span>Cancha principal</span><small>Césped natural reglamentario</small></div>
+      <div class="tarjeta-instalacion ti-2"><span>Gimnasio & sala de video</span><small>Preparación física y análisis táctico</small></div>
+      <div class="tarjeta-instalacion ti-3"><span>Vestuarios y camerinos</span><small>Espacio propio por categoría</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIOS
+============================================================= -->
+<section class="seccion seccion-alterna">
+  <div class="contenedor">
+    <div class="cabecera-seccion centrada reveal">
+      <span class="eyebrow">Familias CAIR</span>
+      <h2 class="titulo-seccion">Lo que dicen quienes ya son parte</h2>
+    </div>
+
+    <div class="grid-testimonios reveal-stagger">
+      <div class="tarjeta-testimonio vidrio">
+        <span class="comillas">“</span>
+        <p>Mi hijo entró con seis años y hoy, además de jugar mejor, es más disciplinado y responsable en el colegio.</p>
+        <div class="autor-testimonio"><div class="foto">LP</div><div><strong>Laura Paredes</strong><span>Madre de jugador Sub-10</span></div></div>
+      </div>
+      <div class="tarjeta-testimonio vidrio">
+        <span class="comillas">“</span>
+        <p>El nivel del cuerpo técnico es el de un club profesional. Se nota en cada charla táctica y en el seguimiento individual.</p>
+        <div class="autor-testimonio"><div class="foto">DF</div><div><strong>Diego Farfán</strong><span>Jugador Sub-18</span></div></div>
+      </div>
+      <div class="tarjeta-testimonio vidrio">
+        <span class="comillas">“</span>
+        <p>Los torneos internos le dieron a mi hija la competitividad que necesitaba para dar el salto a un club mayor.</p>
+        <div class="autor-testimonio"><div class="foto">RM</div><div><strong>Rosa Medina</strong><span>Madre de jugadora Sub-14</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA / INSCRIPCIÓN
+============================================================= -->
+<section class="seccion" id="contacto">
+  <div class="contenedor">
+    <div class="panel-cta reveal">
+      <div>
+        <span class="eyebrow" style="color:var(--color-rojo-brillo);">Próxima temporada</span>
+        <h2 class="titulo-seccion">Sumate al Club Atlético Internacional CAIR</h2>
+        <p class="subtitulo-seccion">Dejanos tus datos y un miembro de nuestro cuerpo técnico se comunicará para coordinar una prueba de nivel según la categoría del jugador.</p>
+        <ul class="lista-cta">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Prueba de nivel sin costo</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Kit de bienvenida CAIR</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg> Seguimiento médico y físico</li>
+        </ul>
+      </div>
+
+      <form class="formulario" id="formularioInscripcion">
+        <div class="dos-columnas">
+          <div class="campo"><label for="nombre">Nombre del jugador</label><input id="nombre" type="text" placeholder="Nombre y apellido" required></div>
+          <div class="campo"><label for="edad">Edad</label><input id="edad" type="number" min="4" max="45" placeholder="Ej. 12" required></div>
+        </div>
+        <div class="campo"><label for="categoria">Categoría de interés</label>
+          <select id="categoria" required>
+            <option value="">Selecciona una categoría</option>
+            <option>Sub-8 · Sub-10</option>
+            <option>Sub-12 · Sub-14</option>
+            <option>Sub-16 · Sub-18</option>
+            <option>Sub-20 · Reserva</option>
+            <option>Primera División</option>
+            <option>Fútbol Femenino</option>
+          </select>
+        </div>
+        <div class="dos-columnas">
+          <div class="campo"><label for="telefono">Teléfono</label><input id="telefono" type="tel" placeholder="+51 900 000 000" required></div>
+          <div class="campo"><label for="email">Correo</label><input id="email" type="email" placeholder="correo@ejemplo.com" required></div>
+        </div>
+        <button type="submit" class="boton boton-primario">Enviar inscripción</button>
+        <p id="estadoFormulario" style="font-size:0.85rem; text-align:center; min-height:18px; margin:0;"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================= -->
+<footer class="site-footer">
+  <div class="contenedor">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-marca">
+          <svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+            <path d="M100 4 L192 40 C192 96 178 168 100 216 C22 168 8 96 8 40 Z" fill="#fff" stroke="var(--color-negro)" stroke-width="7"/>
+            <path d="M100 4 L192 40 C192 70 187 108 168 142 L100 4Z" fill="var(--color-rojo)"/>
+            <path d="M8 40 L100 216 C55 190 22 140 10 80 Z" fill="var(--color-rojo)"/>
+            <text x="100" y="132" text-anchor="middle" font-family="Anton, sans-serif" font-size="70" fill="var(--color-negro)">CAIR</text>
+          </svg>
+          <span class="footer-marca-texto">C.A.I.R</span>
+        </div>
+        <p>Club Atlético Internacional CAIR. Formando futbolistas y personas de todas las edades desde hace 18 años. Pasión · Unión · Gloria.</p>
+        <div class="redes">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M14 9h3V6h-3a4 4 0 0 0-4 4v2H7v3h3v6h3v-6h3l1-3h-4v-2a1 1 0 0 1 1-1Z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2.5" y="6" width="19" height="12" rx="3"/><path d="m10.5 9.5 5 2.5-5 2.5Z"/></svg></a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Club</h4>
+        <ul>
+          <li><a href="#nosotros">Metodología</a></li>
+          <li><a href="#cuerpo-tecnico">Cuerpo técnico</a></li>
+          <li><a href="#torneos">Torneos internos</a></li>
+          <li><a href="#instalaciones">Instalaciones</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Categorías</h4>
+        <ul>
+          <li><a href="#categorias">Escuela infantil</a></li>
+          <li><a href="#categorias">Formativas</a></li>
+          <li><a href="#categorias">Superior</a></li>
+          <li><a href="#categorias">Fútbol femenino</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Contacto</h4>
+        <ul>
+          <li>Av. del Deporte 1234, Lima, Perú</li>
+          <li>contacto@cair.com.pe</li>
+          <li>+51 900 000 000</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-base">
+      <span>© 2026 Club Atlético Internacional CAIR. Todos los derechos reservados.</span>
+      <span>Diseño web con identidad CAIR</span>
+    </div>
+  </div>
+</footer>
+
+<button class="volver-arriba" id="volverArriba" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+</div><!-- ⬆️ cierre de #cair-club ⬆️ -->
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================= -->
+<script>
+(function(){
+
+  /* ---------- Tema claro / oscuro (por defecto claro) ---------- */
+  var body = document.body;
+  var raiz = document.getElementById('cair-club');
+  var botonTema = document.getElementById('botonTema');
+  // Nota: para que el sitio recuerde el tema elegido en WordPress,
+  // podés reemplazar la variable 'temaActual' por localStorage.getItem('tema-cair').
+  var temaActual = 'light';
+
+  botonTema.addEventListener('click', function(){
+    temaActual = temaActual === 'light' ? 'dark' : 'light';
+    body.setAttribute('data-theme', temaActual);
+    raiz.setAttribute('data-theme', temaActual);
+  });
+
+  /* ---------- Menú móvil ---------- */
+  var botonMenu = document.getElementById('botonMenuMovil');
+  var navLinks = document.getElementById('navLinks');
+  botonMenu.addEventListener('click', function(){
+    navLinks.classList.toggle('abierto');
+  });
+  navLinks.querySelectorAll('a').forEach(function(link){
+    link.addEventListener('click', function(){ navLinks.classList.remove('abierto'); });
+  });
+
+  /* ---------- Resaltar enlace activo al hacer scroll ---------- */
+  var secciones = document.querySelectorAll('section[id]');
+  var enlaces = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', function(){
+    var actual = '';
+    secciones.forEach(function(sec){
+      var top = sec.offsetTop - 140;
+      if(window.scrollY >= top){ actual = sec.getAttribute('id'); }
+    });
+    enlaces.forEach(function(a){
+      a.classList.toggle('activo', a.getAttribute('href') === '#' + actual);
+    });
+  });
+
+  /* ---------- Animaciones al hacer scroll (reveal) ---------- */
+  var observador = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(entrada){
+      if(entrada.isIntersecting){
+        entrada.target.classList.add('visible');
+        observador.unobserve(entrada.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el){ observador.observe(el); });
+
+  /* Red de seguridad: si por algún motivo el navegador no dispara el observer
+     (ej. conflicto con otro script del tema de WordPress), el contenido se
+     muestra igual después de 2 segundos en vez de quedar invisible. */
+  setTimeout(function(){
+    document.querySelectorAll('.reveal, .reveal-stagger').forEach(function(el){ el.classList.add('visible'); });
+  }, 2000);
+
+  /* ---------- Botón volver arriba ---------- */
+  var volverArriba = document.getElementById('volverArriba');
+  window.addEventListener('scroll', function(){
+    volverArriba.classList.toggle('visible', window.scrollY > 600);
+  });
+  volverArriba.addEventListener('click', function(){
+    window.scrollTo({ top:0, behavior:'smooth' });
+  });
+
+  /* ---------- Efecto de luz que sigue al cursor sobre tarjetas de vidrio ---------- */
+  document.querySelectorAll('.vidrio').forEach(function(tarjeta){
+    tarjeta.addEventListener('mousemove', function(e){
+      var rect = tarjeta.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width) * 100;
+      var y = ((e.clientY - rect.top) / rect.height) * 100;
+      tarjeta.style.background = 'radial-gradient(circle at ' + x + '% ' + y + '%, rgba(255,255,255,0.35), var(--glass-fondo) 60%)';
+    });
+    tarjeta.addEventListener('mouseleave', function(){
+      tarjeta.style.background = 'var(--glass-fondo)';
+    });
+  });
+
+  /* ============================================================
+     0. CONFIGURACIÓN DE ENVÍO AUTOMÁTICO DE CORREO (Google Apps Script)
+     ============================================================
+     Este formulario no necesita un servidor propio ni un servicio de pago:
+     usa un "Web App" gratuito de Google Apps Script que recibe los datos
+     de la inscripción y envía el correo por ti.
+
+     PASOS PARA ACTIVARLO (una sola vez, 5 minutos):
+     1. Entra a https://script.google.com con la cuenta de Gmail/Google
+        Workspace donde quieres RECIBIR las inscripciones.
+     2. Crea un "Nuevo proyecto" y pega el código del archivo
+        "cair-apps-script-correo.gs" que te entregamos junto a este HTML.
+     3. Arriba a la derecha: "Implementar" → "Nueva implementación".
+        - Tipo de implementación: "Aplicación web"
+        - Ejecutar como: "Yo" (tu cuenta)
+        - Quién tiene acceso: "Cualquier usuario"
+     4. Google pedirá autorizar el envío de correo la primera vez: acéptalo.
+     5. Copia la URL que termina en "/exec" y pégala abajo, reemplazando
+        el texto 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT'.
+     6. Guarda este archivo y vuelve a subirlo a Elementor. Listo. */
+  var APPS_SCRIPT_URL_INSCRIPCION = 'https://script.google.com/macros/s/AKfycbx-uzSo302prN0DL59unY4Ad34xeUH4G_T4ZBHf8GY4GAJ4h39wgFbsBgd6FPZpc_Q-/exec';
+
+  // Correo(s) que reciben cada inscripción (agrega más separados por coma)
+  var EMAIL_DESTINATARIOS_INSCRIPCION = ['jonbornes57@gmail.com'];
+
+  /* Arma el cuerpo del correo en texto plano, ordenado, con todos los
+     datos del formulario (mismo criterio que usamos en otros proyectos). */
+  function construirCuerpoCorreoInscripcionCAIR(datos){
+    var lineas = [];
+    lineas.push('NUEVA INSCRIPCIÓN — CLUB ATLÉTICO INTERNACIONAL CAIR');
+    lineas.push('================================================');
+    lineas.push('Nombre del jugador: ' + (datos.nombre || '—'));
+    lineas.push('Edad: ' + (datos.edad || '—'));
+    lineas.push('Categoría de interés: ' + (datos.categoria || '—'));
+    lineas.push('Teléfono: ' + (datos.telefono || '—'));
+    lineas.push('Correo electrónico: ' + (datos.email || '—'));
+    lineas.push('');
+    lineas.push('Fecha y hora de envío: ' + new Date().toLocaleString('es-PE'));
+    return lineas.join('\n');
+  }
+
+  /* Envía la inscripción al Apps Script. El asunto del correo es el
+     nombre y apellidos del jugador, tal como se pidió. */
+  async function enviarCorreoInscripcionCAIR(datos){
+    if (!APPS_SCRIPT_URL_INSCRIPCION || APPS_SCRIPT_URL_INSCRIPCION.indexOf('PEGA_AQUI') !== -1) {
+      return { ok:false, configurado:false };
+    }
+    var payload = {
+      to: EMAIL_DESTINATARIOS_INSCRIPCION,
+      asunto: datos.nombre || 'Nueva inscripción — Club CAIR', // ASUNTO = nombres y apellidos
+      email: datos.email,
+      cuerpo: construirCuerpoCorreoInscripcionCAIR(datos)
+    };
+    try{
+      // Content-Type: text/plain evita el preflight CORS que Google Apps Script no maneja bien
+      var resp = await fetch(APPS_SCRIPT_URL_INSCRIPCION, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+      var resultado = {};
+      try{ resultado = await resp.json(); }catch(_e){ /* algunas veces Apps Script no devuelve JSON limpio, no es grave */ }
+      return { ok:true, resultado: resultado };
+    }catch(err){
+      console.error('CAIR — No se pudo contactar al Apps Script:', err);
+      return { ok:false, error: err };
+    }
+  }
+
+  /* ---------- Formulario de inscripción: envío automático de correo ---------- */
+  var formulario = document.getElementById('formularioInscripcion');
+  formulario.addEventListener('submit', async function(e){
+    e.preventDefault();
+
+    var datos = {
+      nombre:    document.getElementById('nombre').value.trim(),
+      edad:      document.getElementById('edad').value.trim(),
+      categoria: document.getElementById('categoria').value,
+      telefono:  document.getElementById('telefono').value.trim(),
+      email:     document.getElementById('email').value.trim()
+    };
+
+    var boton  = formulario.querySelector('button[type="submit"]');
+    var estado = document.getElementById('estadoFormulario');
+    var textoOriginalBoton = boton.textContent;
+    boton.textContent = 'Enviando...';
+    boton.disabled = true;
+    estado.textContent = '';
+    estado.style.color = '';
+
+    var resultado = await enviarCorreoInscripcionCAIR(datos);
+
+    boton.textContent = textoOriginalBoton;
+    boton.disabled = false;
+
+    if (resultado.ok) {
+      estado.style.color = 'var(--color-rojo-texto, var(--color-rojo))';
+      estado.textContent = '¡Gracias, ' + (datos.nombre || 'futuro jugador') + '! Tu inscripción fue enviada. Te contactaremos pronto.';
+      formulario.reset();
+    } else if (resultado.configurado === false) {
+      // El Apps Script todavía no fue configurado (ver sección 0 de este script)
+      estado.style.color = '#c99';
+      estado.textContent = 'Formulario listo, pero falta conectar el envío de correo (ver comentarios "CONFIGURACIÓN DE ENVÍO" en el código).';
+      console.warn('CAIR — Falta configurar APPS_SCRIPT_URL_INSCRIPCION en la sección 0 del script.');
+    } else {
+      estado.style.color = '#c99';
+      estado.textContent = 'No pudimos enviar tu inscripción. Escríbenos a ' + EMAIL_DESTINATARIOS_INSCRIPCION[0] + ' o inténtalo nuevamente.';
+      console.error('CAIR — Error al enviar inscripción:', resultado.error);
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
