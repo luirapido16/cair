@@ -289,7 +289,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   display:flex; align-items:center; justify-content:space-between;
 }
 .marca{ display:flex; align-items:center; gap:12px; }
-.marca svg{ width:44px; height:auto; }
+.marca img{ width:44px; height:auto; display:block; }
 .marca-texto{ font-family:var(--font-display); font-size:1.15rem; letter-spacing:0.04em; line-height:1; color:var(--color-texto); }
 .marca-texto span{ display:block; font-family:var(--font-dato); font-size:0.6rem; letter-spacing:0.25em; color:var(--color-texto-suave); font-weight:400; margin-top:3px; }
 
@@ -427,6 +427,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .hero-visual{ position:relative; display:flex; justify-content:center; z-index:2; }
 .hero-escudo-grande{
   width:min(360px, 80%);
+  height:auto;
+  display:block;
   filter: drop-shadow(0 30px 60px rgba(200,16,46,0.35));
   animation: latir 5s ease-in-out infinite;
 }
@@ -674,7 +676,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .footer-grid{ display:grid; grid-template-columns: 1.3fr 0.8fr 0.8fr 1fr; gap:44px; margin-bottom:50px; }
 .footer-marca{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-.footer-marca svg{ width:40px; }
+.footer-marca img{ width:40px; height:auto; display:block; }
 .footer-marca-texto{ font-family:var(--font-display); color:#fff; font-size:1.1rem; letter-spacing:0.03em; }
 #cair-club .site-footer p{ font-size:0.88rem; line-height:1.7; max-width:280px; color:rgba(255,255,255,0.55) !important; }
 #cair-club .site-footer h4{ color:#fff !important; font-family:var(--font-display); font-size:0.95rem; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:18px; }
@@ -777,31 +779,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 <!-- Manchas de luz ambiental fijas (efecto "luz indirecta" tipo reflectores) -->
 <div class="luz-ambiental" aria-hidden="true"><span></span><span></span><span></span></div>
 
-<!-- Logo oficial reutilizable: escudo blanco, borde negro, dos sectores rojos y monograma CAR. -->
-<svg class="logo-definicion" aria-hidden="true" width="0" height="0" focusable="false">
-  <defs>
-    <symbol id="logo-cair" viewBox="0 0 200 220">
-      <!-- El área fuera de esta silueta queda transparente. -->
-      <path d="M100 4 L192 40 C192 96 178 168 100 216 C22 168 8 96 8 40 Z" fill="#fff"/>
-      <clipPath id="logo-cair-forma">
-        <path d="M100 4 L192 40 C192 96 178 168 100 216 C22 168 8 96 8 40 Z"/>
-      </clipPath>
-      <g clip-path="url(#logo-cair-forma)" fill="#C8102E">
-        <path d="M100 4 L192 40 C192 70 187 108 168 142 L100 4Z"/>
-        <path d="M8 40 L100 216 C55 190 22 140 10 80 Z"/>
-      </g>
-      <path d="M100 4 L192 40 C192 96 178 168 100 216 C22 168 8 96 8 40 Z" fill="none" stroke="#0B0B0D" stroke-width="7" stroke-linejoin="round"/>
-      <!-- Medallón blanco con contorno oscuro y monograma CAR vertical. -->
-      <ellipse cx="100" cy="111" rx="36" ry="46" fill="#fff" stroke="#0B0B0D" stroke-width="5"/>
-      <text x="100" y="88" text-anchor="middle" font-family="Arial, sans-serif" font-size="27" font-weight="800" fill="#0B0B0D">
-        <tspan x="100" dy="0">C</tspan>
-        <tspan x="100" dy="27">A</tspan>
-        <tspan x="100" dy="27">R</tspan>
-      </text>
-    </symbol>
-  </defs>
-</svg>
-
 <!-- ============================================================
      NAVEGACIÓN
 ============================================================= -->
@@ -809,8 +786,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   <div class="nav-vidrio">
     <div class="nav-interior">
       <a href="#inicio" class="marca">
-        <!-- Logo oficial -->
-        <svg viewBox="0 0 200 220" aria-hidden="true"><use href="#logo-cair"></use></svg>
+        <img src="https://assets.polimatalab.com/cair/logos/image.png" alt="Escudo del Club Atlético Internacional River">
           <span class="marca-texto">Club Atlético Internacional River<span>Club Atlético Internacional River</span></span>
       </a>
 
@@ -853,7 +829,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
       </div>
 
       <div class="hero-visual reveal">
-        <svg class="hero-escudo-grande" viewBox="0 0 200 220" aria-hidden="true"><use href="#logo-cair"></use></svg>
+        <img class="hero-escudo-grande" src="https://assets.polimatalab.com/cair/logos/image.png" alt="Escudo del Club Atlético Internacional River">
       </div>
     </div>
 
@@ -1174,7 +1150,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <div class="footer-grid">
       <div>
         <div class="footer-marca">
-          <svg viewBox="0 0 200 220" aria-hidden="true"><use href="#logo-cair"></use></svg>
+          <img src="https://assets.polimatalab.com/cair/logos/image.png" alt="Escudo del Club Atlético Internacional River">
           <span class="footer-marca-texto">Club Atlético Internacional River</span>
         </div>
         <p>Club Atlético Internacional River. Formando futbolistas y personas de todas las edades desde hace 18 años. Pasión · Unión · Gloria.</p>
