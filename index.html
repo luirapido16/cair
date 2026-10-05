@@ -289,7 +289,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   display:flex; align-items:center; justify-content:space-between;
 }
 .marca{ display:flex; align-items:center; gap:12px; }
-.marca img{ width:44px; height:auto; display:block; }
+.marca img{ width:88px; height:auto; display:block; }
 .marca-texto{ font-family:var(--font-display); font-size:1.15rem; letter-spacing:0.04em; line-height:1; color:var(--color-texto); }
 .marca-texto span{ display:block; font-family:var(--font-dato); font-size:0.6rem; letter-spacing:0.25em; color:var(--color-texto-suave); font-weight:400; margin-top:3px; }
 
@@ -424,13 +424,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .hero-cta{ display:flex; gap:16px; margin-top:38px; flex-wrap:wrap; }
 
-.hero-visual{ position:relative; display:flex; justify-content:center; z-index:2; }
+.hero-visual{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:2; }
 .hero-escudo-grande{
   width:min(360px, 80%);
   height:auto;
   display:block;
   filter: drop-shadow(0 30px 60px rgba(200,16,46,0.35));
   animation: latir 5s ease-in-out infinite;
+}
+.hero-escudo-nombre{
+  margin-top:20px;
+  text-align:center;
+  font-weight:800;
+  letter-spacing:0.02em;
 }
 @keyframes latir{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.025); } }
 
@@ -541,7 +547,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 /* ---------- Cuerpo técnico ---------- */
 .grid-staff{ display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
-.tarjeta-staff{ padding:30px 22px; text-align:center; }
+.tarjeta-staff{
+  height:420px; padding:0; overflow:hidden; text-align:center;
+  display:flex; flex-direction:column;
+}
+.tarjeta-staff .foto-staff{
+  width:100%; height:50%; flex:0 0 50%; margin:0;
+  display:block; object-fit:cover; object-position:center;
+  border:0; border-radius:0; box-shadow:none;
+}
+.staff-info{ flex:1; padding:22px; display:flex; flex-direction:column; }
 .avatar-escudo{
   width:96px; height:96px; margin:0 auto 18px;
   display:flex; align-items:center; justify-content:center;
@@ -787,7 +802,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
     <div class="nav-interior">
       <a href="#inicio" class="marca">
         <img src="https://assets.polimatalab.com/cair/logos/image.png" alt="Escudo del Club Atlético Internacional River">
-          <span class="marca-texto">Club Atlético Internacional River<span>Club Atlético Internacional River</span></span>
       </a>
 
       <nav class="nav-links" id="navLinks">
@@ -830,6 +844,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
       <div class="hero-visual reveal">
         <img class="hero-escudo-grande" src="https://assets.polimatalab.com/cair/logos/image.png" alt="Escudo del Club Atlético Internacional River">
+        <span class="hero-escudo-nombre">Club Atlético Internacional River</span>
       </div>
     </div>
 
@@ -978,28 +993,36 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
     <div class="grid-staff reveal-stagger">
       <div class="tarjeta-staff vidrio">
-        <div class="avatar-escudo marco-escudo">MR</div>
-        <h3>Miguel Rojas</h3>
-        <div class="rol">Director técnico</div>
-        <p>Licenciado en Ciencias del Deporte, más de 15 años dirigiendo divisiones formativas y primer equipo.</p>
+        <img class="foto-staff" src="https://assets.polimatalab.com/cair/team/entrenador.png" alt="Julio Otega">
+        <div class="staff-info">
+          <h3>Julio Otega</h3>
+          <div class="rol">Director técnico</div>
+          <p>Licenciado en Ciencias del Deporte en Argentina, más de 15 años dirigiendo divisiones formativas.</p>
+        </div>
       </div>
       <div class="tarjeta-staff vidrio">
-        <div class="avatar-escudo marco-escudo">CA</div>
-        <h3>Carla Aranda</h3>
-        <div class="rol">Preparadora física</div>
-        <p>Especialista en rendimiento y prevención de lesiones para jugadores en etapa de crecimiento.</p>
+        <img class="foto-staff" src="https://assets.polimatalab.com/cair/team/tecno.png" alt="Luis Ramos">
+        <div class="staff-info">
+          <h3>Luis Ramos</h3>
+          <div class="rol">Tecnología Deportiva</div>
+          <p>A cargo de la metodología formativa en base a tecnologia y alto rendimiento documentando estadísticas deportivas.</p>
+        </div>
       </div>
       <div class="tarjeta-staff vidrio">
-        <div class="avatar-escudo marco-escudo">JT</div>
-        <h3>Javier Torres</h3>
-        <div class="rol">Coordinador de menores</div>
-        <p>A cargo de la metodología formativa desde Sub-8 hasta Sub-14, foco en el desarrollo técnico.</p>
+        <img class="foto-staff" src="https://assets.polimatalab.com/cair/team/preparador.png" alt="Reynaldo Praga">
+        <div class="staff-info">
+          <h3>Reynaldo Praga</h3>
+          <div class="rol">Preparador físico</div>
+          <p>Especialista en rendimiento y prevención de lesiones para jugadores en etapa de crecimiento.</p>
+        </div>
       </div>
       <div class="tarjeta-staff vidrio">
-        <div class="avatar-escudo marco-escudo">SL</div>
-        <h3>Sofía León</h3>
-        <div class="rol">Psicóloga deportiva</div>
-        <p>Acompaña el desarrollo emocional del jugador: manejo de presión, motivación y trabajo en equipo.</p>
+        <img class="foto-staff" src="https://assets.polimatalab.com/cair/team/psicologia.png" alt="Sofía León">
+        <div class="staff-info">
+          <h3>Sofía León</h3>
+          <div class="rol">Psicóloga deportiva</div>
+          <p>Acompaña el desarrollo emocional del jugador: manejo de presión, motivación y trabajo en equipo.</p>
+        </div>
       </div>
     </div>
   </div>
