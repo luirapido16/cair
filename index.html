@@ -783,6 +783,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .tabla-vidrio table{ min-width:520px; }
 }
 
+/* ---------- Botón flotante de WhatsApp ---------- */
+.boton-whatsapp{
+  position:fixed; right:22px; bottom:22px; z-index:2000;
+  width:60px; height:60px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:#25D366;
+  box-shadow:0 10px 24px rgba(37,211,102,0.45);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.boton-whatsapp:hover{ transform:scale(1.08); box-shadow:0 14px 30px rgba(37,211,102,0.55); }
+.boton-whatsapp img{ width:34px; height:34px; object-fit:contain; display:block; }
+
 </style>
 </head>
 <body data-theme="light">
@@ -1424,6 +1436,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 
 })();
 </script>
+
+<!-- Botón flotante de WhatsApp -->
+<a class="boton-whatsapp" href="https://wa.me/5491127183289?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20el%20club" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <img src="https://assets.polimatalab.com/ludokid/icon%20whatsapp.png" alt="WhatsApp">
+</a>
 
 </body>
 </html>
